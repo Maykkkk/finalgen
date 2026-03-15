@@ -36,11 +36,29 @@ class ChatsRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "lastMessagePreview" field.
+  String? _lastMessagePreview;
+  String get lastMessagePreview => _lastMessagePreview ?? '';
+  bool hasLastMessagePreview() => _lastMessagePreview != null;
+
+  // "pinned" field.
+  bool? _pinned;
+  bool get pinned => _pinned ?? false;
+  bool hasPinned() => _pinned != null;
+
+  // "archived" field.
+  bool? _archived;
+  bool get archived => _archived ?? false;
+  bool hasArchived() => _archived != null;
+
   void _initializeFields() {
     _userId = snapshotData['userId'] as DocumentReference?;
     _title = snapshotData['title'] as String?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _lastMessagePreview = snapshotData['lastMessagePreview'] as String?;
+    _pinned = snapshotData['pinned'] as bool?;
+    _archived = snapshotData['archived'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -81,6 +99,9 @@ Map<String, dynamic> createChatsRecordData({
   String? title,
   DateTime? createdAt,
   DateTime? updatedAt,
+  String? lastMessagePreview,
+  bool? pinned,
+  bool? archived,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -88,6 +109,9 @@ Map<String, dynamic> createChatsRecordData({
       'title': title,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'lastMessagePreview': lastMessagePreview,
+      'pinned': pinned,
+      'archived': archived,
     }.withoutNulls,
   );
 
@@ -102,12 +126,22 @@ class ChatsRecordDocumentEquality implements Equality<ChatsRecord> {
     return e1?.userId == e2?.userId &&
         e1?.title == e2?.title &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.lastMessagePreview == e2?.lastMessagePreview &&
+        e1?.pinned == e2?.pinned &&
+        e1?.archived == e2?.archived;
   }
 
   @override
-  int hash(ChatsRecord? e) => const ListEquality()
-      .hash([e?.userId, e?.title, e?.createdAt, e?.updatedAt]);
+  int hash(ChatsRecord? e) => const ListEquality().hash([
+        e?.userId,
+        e?.title,
+        e?.createdAt,
+        e?.updatedAt,
+        e?.lastMessagePreview,
+        e?.pinned,
+        e?.archived
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is ChatsRecord;

@@ -85,6 +85,43 @@ class _MyAppState extends State<MyApp> {
         FlutterFlowTheme.saveThemeMode(mode);
       });
 
+  ThemeData _buildTheme(Brightness brightness) {
+    final theme =
+        brightness == Brightness.dark ? DarkModeTheme() : LightModeTheme();
+    final baseScheme = ColorScheme.fromSeed(
+      seedColor: theme.primary,
+      brightness: brightness,
+    );
+
+    return ThemeData(
+      brightness: brightness,
+      useMaterial3: false,
+      scaffoldBackgroundColor: theme.primaryBackground,
+      colorScheme: baseScheme.copyWith(
+        primary: theme.primary,
+        secondary: theme.secondary,
+        surface: theme.secondaryBackground,
+        error: theme.error,
+        onPrimary: theme.info,
+        onSecondary: theme.info,
+        onSurface: theme.primaryText,
+        onError: theme.info,
+      ),
+      cardColor: theme.secondaryBackground,
+      dividerColor: theme.alternate,
+      canvasColor: theme.secondaryBackground,
+      appBarTheme: AppBarTheme(
+        backgroundColor: theme.primaryBackground,
+        foregroundColor: theme.primaryText,
+        elevation: 0.0,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: theme.secondaryBackground,
+        contentTextStyle: TextStyle(color: theme.primaryText),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -96,14 +133,8 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en', '')],
-      theme: ThemeData(
-        brightness: Brightness.light,
-        useMaterial3: false,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: false,
-      ),
+      theme: _buildTheme(Brightness.light),
+      darkTheme: _buildTheme(Brightness.dark),
       themeMode: _themeMode,
       routerConfig: _router,
     );

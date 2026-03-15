@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -7,32 +6,64 @@ import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
 
-const _kPrivateApiFunctionName = 'ffPrivateApiCall';
+const _geminiApiKey = String.fromEnvironment('GEMINI_API_KEY');
+const _geminiModel = 'gemini-2.5-flash';
+const _geminiApiUrl =
+    'https://generativelanguage.googleapis.com/v1beta/models/$_geminiModel:generateContent';
 
 class GeminiGenerateCall {
   static Future<ApiCallResponse> call({
     String? textValue = '',
+    List<Map<String, dynamic>> history = const [],
+    String? systemInstruction,
   }) async {
-    final ffApiRequestBody = '''
-{
-  "contents": [
-    {
-      "parts": [
+    if (_geminiApiKey.isEmpty) {
+      return ApiCallResponse(
         {
-          "text": "${escapeStringForJson(textValue)}"
-        }
-      ]
+          'error': {
+            'message':
+                'Missing Gemini API key. Run Flutter with --dart-define=GEMINI_API_KEY=your_key',
+          },
+        },
+        const {},
+        400,
+      );
     }
-  ]
-}''';
+
+    final contents = <Map<String, dynamic>>[
+      ...history,
+      {
+        'role': 'user',
+        'parts': [
+          {'text': textValue ?? ''}
+        ],
+      },
+    ];
+
+    final ffApiRequestBody = jsonEncode({
+      'contents': contents,
+      if ((systemInstruction ?? '').trim().isNotEmpty)
+        'systemInstruction': {
+          'parts': [
+            {'text': systemInstruction!.trim()}
+          ],
+        },
+      'generationConfig': {
+        'temperature': 0.7,
+        'maxOutputTokens': 4096,
+        'thinkingConfig': {
+          'thinkingBudget': 0,
+        },
+      },
+    });
+
     return ApiManager.instance.makeApiCall(
       callName: 'GeminiGenerate',
-      apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+      apiUrl: _geminiApiUrl,
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
-        'X-goog-api-key': 'AIzaSyDsjhpyLb4SiKjahN89rlZzlrS9zaeVxOo',
+        'x-goog-api-key': _geminiApiKey,
       },
       params: {},
       body: ffApiRequestBody,
@@ -46,11 +77,64 @@ class GeminiGenerateCall {
     );
   }
 
-  static String? geminiReplyText(dynamic response) =>
-      castToType<String>(getJsonField(
-        response,
-        r'''$.candidates[:].content.parts[:].text''',
-      ));
+  static String? geminiReplyText(dynamic response) {
+    if (response is! Map<String, dynamic>) {
+      return castToType<String>(
+        getJsonField(
+          response,
+          r'''$.candidates[0].content.parts[0].text''',
+        ),
+      );
+    }
+
+    final candidates = response['candidates'];
+    if (candidates is! List || candidates.isEmpty) {
+      return null;
+    }
+
+    final firstCandidate = candidates.first;
+    if (firstCandidate is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final content = firstCandidate['content'];
+    if (content is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final parts = content['parts'];
+    if (parts is! List) {
+      return null;
+    }
+
+    final textParts = parts
+        .whereType<Map>()
+        .map((part) => part['text'])
+        .whereType<String>()
+        .map((part) => part.trimRight())
+        .where((part) => part.isNotEmpty)
+        .toList();
+
+    if (textParts.isEmpty) {
+      return null;
+    }
+
+    return textParts.join('\n\n');
+  }
+
+  static String? errorText(dynamic response) => castToType<String>(
+        getJsonField(
+          response,
+          r'''$.error.message''',
+        ),
+      );
+
+  static String? finishReason(dynamic response) => castToType<String>(
+        getJsonField(
+          response,
+          r'''$.candidates[0].finishReason''',
+        ),
+      );
 }
 
 class ApiPagingParams {

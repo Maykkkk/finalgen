@@ -117,6 +117,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['chats'],
             ),
           ),
+        ),
+        FFRoute(
+          name: SettingsPageWidget.routeName,
+          path: SettingsPageWidget.routePath,
+          builder: (context, params) => const SettingsPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -41,6 +41,16 @@ class MessagesRecord extends FirestoreRecord {
   String get response => _response ?? '';
   bool hasResponse() => _response != null;
 
+  // "feedback" field.
+  String? _feedback;
+  String get feedback => _feedback ?? '';
+  bool hasFeedback() => _feedback != null;
+
+  // "needsContinuation" field.
+  bool? _needsContinuation;
+  bool get needsContinuation => _needsContinuation ?? false;
+  bool hasNeedsContinuation() => _needsContinuation != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -49,6 +59,8 @@ class MessagesRecord extends FirestoreRecord {
     _text = snapshotData['text'] as String?;
     _role = snapshotData['role'] as String?;
     _response = snapshotData['response'] as String?;
+    _feedback = snapshotData['feedback'] as String?;
+    _needsContinuation = snapshotData['needsContinuation'] as bool?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -96,6 +108,8 @@ Map<String, dynamic> createMessagesRecordData({
   String? text,
   String? role,
   String? response,
+  String? feedback,
+  bool? needsContinuation,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -104,6 +118,8 @@ Map<String, dynamic> createMessagesRecordData({
       'text': text,
       'role': role,
       'response': response,
+      'feedback': feedback,
+      'needsContinuation': needsContinuation,
     }.withoutNulls,
   );
 
@@ -119,12 +135,21 @@ class MessagesRecordDocumentEquality implements Equality<MessagesRecord> {
         e1?.senderId == e2?.senderId &&
         e1?.text == e2?.text &&
         e1?.role == e2?.role &&
-        e1?.response == e2?.response;
+        e1?.response == e2?.response &&
+        e1?.feedback == e2?.feedback &&
+        e1?.needsContinuation == e2?.needsContinuation;
   }
 
   @override
-  int hash(MessagesRecord? e) => const ListEquality()
-      .hash([e?.createdAt, e?.senderId, e?.text, e?.role, e?.response]);
+  int hash(MessagesRecord? e) => const ListEquality().hash([
+        e?.createdAt,
+        e?.senderId,
+        e?.text,
+        e?.role,
+        e?.response,
+        e?.feedback,
+        e?.needsContinuation
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is MessagesRecord;

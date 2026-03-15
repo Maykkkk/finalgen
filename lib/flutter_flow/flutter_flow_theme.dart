@@ -16,7 +16,7 @@ abstract class FlutterFlowTheme {
   static ThemeMode get themeMode {
     final darkMode = _prefs?.getBool(kThemeModeKey);
     return darkMode == null
-        ? ThemeMode.system
+        ? ThemeMode.dark
         : darkMode
             ? ThemeMode.dark
             : ThemeMode.light;
@@ -142,21 +142,21 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF4B986C);
-  late Color secondary = const Color(0xFF928163);
-  late Color tertiary = const Color(0xFF6D604A);
-  late Color alternate = const Color(0xFFC8D7E4);
-  late Color primaryText = const Color(0xFF0B191E);
-  late Color secondaryText = const Color(0xFF384E58);
-  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color primary = const Color(0xFF2C8CFF);
+  late Color secondary = const Color(0xFF6A4CFF);
+  late Color tertiary = const Color(0xFF15B79E);
+  late Color alternate = const Color(0xFFD7E0EA);
+  late Color primaryText = const Color(0xFF0D1726);
+  late Color secondaryText = const Color(0xFF526173);
+  late Color primaryBackground = const Color(0xFFF4F7FB);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
-  late Color accent1 = const Color(0x4D4B986C);
-  late Color accent2 = const Color(0x4D928163);
-  late Color accent3 = const Color(0x4C6D604A);
-  late Color accent4 = const Color(0xCDFFFFFF);
-  late Color success = const Color(0xFF336A4A);
-  late Color warning = const Color(0xFFF3C344);
-  late Color error = const Color(0xFFC4454D);
+  late Color accent1 = const Color(0x332C8CFF);
+  late Color accent2 = const Color(0x336A4CFF);
+  late Color accent3 = const Color(0x3315B79E);
+  late Color accent4 = const Color(0xE6FFFFFF);
+  late Color success = const Color(0xFF0F9D7A);
+  late Color warning = const Color(0xFFF79009);
+  late Color error = const Color(0xFFD92D20);
   late Color info = const Color(0xFFFFFFFF);
 }
 
@@ -328,21 +328,21 @@ class DarkModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF4B986C);
-  late Color secondary = const Color(0xFF928163);
-  late Color tertiary = const Color(0xFF6D604A);
-  late Color alternate = const Color(0xFF17282E);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFF658593);
-  late Color primaryBackground = const Color(0xFF0B191E);
-  late Color secondaryBackground = const Color(0xFF0D1E23);
-  late Color accent1 = const Color(0x4D4B986C);
-  late Color accent2 = const Color(0x4D928163);
-  late Color accent3 = const Color(0x4C6D604A);
-  late Color accent4 = const Color(0xB20B191E);
-  late Color success = const Color(0xFF336A4A);
-  late Color warning = const Color(0xFFF3C344);
-  late Color error = const Color(0xFFC4454D);
+  late Color primary = const Color(0xFF4EA1FF);
+  late Color secondary = const Color(0xFF8A63FF);
+  late Color tertiary = const Color(0xFF1FD3B0);
+  late Color alternate = const Color(0xFF243647);
+  late Color primaryText = const Color(0xFFF5F7FA);
+  late Color secondaryText = const Color(0xFFB2C0D0);
+  late Color primaryBackground = const Color(0xFF05070B);
+  late Color secondaryBackground = const Color(0xFF111723);
+  late Color accent1 = const Color(0x334EA1FF);
+  late Color accent2 = const Color(0x338A63FF);
+  late Color accent3 = const Color(0x331FD3B0);
+  late Color accent4 = const Color(0xCC05070B);
+  late Color success = const Color(0xFF12B981);
+  late Color warning = const Color(0xFFFDB022);
+  late Color error = const Color(0xFFF04438);
   late Color info = const Color(0xFFFFFFFF);
 }
 
