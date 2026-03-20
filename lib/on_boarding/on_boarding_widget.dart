@@ -2,14 +2,10 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
-import 'dart:ui';
 import '/index.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'on_boarding_model.dart';
 export 'on_boarding_model.dart';
 
@@ -129,6 +125,8 @@ class _OnBoardingWidgetState extends State<OnBoardingWidget>
 
   @override
   Widget build(BuildContext context) {
+    final theme = FlutterFlowTheme.of(context);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -155,8 +153,19 @@ class _OnBoardingWidgetState extends State<OnBoardingWidget>
                               width: 120.0,
                               height: 120.0,
                               decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).accent4,
+                                gradient: RadialGradient(
+                                  colors: [
+                                    theme.primary.withValues(alpha: 0.34),
+                                    theme.secondary.withValues(alpha: 0.22),
+                                    Color(0xFF09111F),
+                                  ],
+                                  stops: [0.0, 0.48, 1.0],
+                                ),
                                 shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: theme.primary.withValues(alpha: 0.22),
+                                  width: 1.5,
+                                ),
                               ),
                               child: Container(
                                 width: 200.0,
@@ -165,9 +174,50 @@ class _OnBoardingWidgetState extends State<OnBoardingWidget>
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                child: Image.network(
-                                  'https://images.unsplash.com/photo-1684487747720-1ba29cda82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxMnx8Z3B0fGVufDB8fHx8MTc1NzQyMDIyOXww&ixlib=rb-4.1.0&q=80&w=1080',
-                                  fit: BoxFit.cover,
+                                child: Center(
+                                  child: Container(
+                                    width: 82.0,
+                                    height: 82.0,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          theme.primary,
+                                          theme.secondary,
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 20.0,
+                                          color: theme.primary
+                                              .withValues(alpha: 0.28),
+                                          offset: Offset(0.0, 12.0),
+                                        )
+                                      ],
+                                    ),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.chat_bubble_rounded,
+                                          color: theme.info,
+                                          size: 34.0,
+                                        ),
+                                        Positioned(
+                                          right: 12.0,
+                                          top: 10.0,
+                                          child: Icon(
+                                            Icons.auto_awesome_rounded,
+                                            color: theme.info
+                                                .withValues(alpha: 0.95),
+                                            size: 16.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ).animateOnPageLoad(
@@ -177,7 +227,7 @@ class _OnBoardingWidgetState extends State<OnBoardingWidget>
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 36.0, 0.0, 0.0),
                             child: Text(
-                              'Welcome to TextGPT!',
+                              'Welcome to AskAnything!',
                               style: FlutterFlowTheme.of(context)
                                   .displaySmall
                                   .override(
@@ -204,7 +254,7 @@ class _OnBoardingWidgetState extends State<OnBoardingWidget>
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 12.0, 24.0, 0.0),
                             child: Text(
-                              'TextGPT is a free AI assistant that can help you with a wide variety of tasks.',
+                              'AskAnything is a free AI assistant built to help you think clearly, create faster, and get things done with less friction.',
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .labelMedium

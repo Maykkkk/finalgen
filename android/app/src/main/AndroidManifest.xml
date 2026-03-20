@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="finalgen"
+        android:label="AskAnything"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
@@ -45,7 +45,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="finalgen" android:host="finalgen.com" />
+                <data android:scheme="askanything" android:host="askanything.com" />
             </intent-filter>
 
         </activity>

@@ -145,7 +145,7 @@ class _CreatAccountWidgetState extends State<CreatAccountWidget>
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 0.0, 0.0),
                                     child: Text(
-                                      'TextGPT',
+                                      'AskAnything',
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(

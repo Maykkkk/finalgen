@@ -2,13 +2,10 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
 import '/index.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'login_page_model.dart';
 export 'login_page_model.dart';
 
@@ -69,14 +66,17 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 32.0),
                     child: Container(
-                      width: 200.0,
-                      height: 70.0,
+                      constraints: BoxConstraints(
+                        minHeight: 70.0,
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 24.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       alignment: AlignmentDirectional(0.0, 0.0),
                       child: Text(
-                        'TextGPT',
+                        'AskAnything',
+                        maxLines: 1,
                         style:
                             FlutterFlowTheme.of(context).displaySmall.override(
                                   font: GoogleFonts.urbanist(

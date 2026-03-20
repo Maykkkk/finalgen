@@ -5,9 +5,11 @@ import '../base_auth_user_provider.dart';
 
 export '../base_auth_user_provider.dart';
 
-class FinalgenFirebaseUser extends BaseAuthUser {
-  FinalgenFirebaseUser(this.user);
+class AskAnythingFirebaseUser extends BaseAuthUser {
+  AskAnythingFirebaseUser(this.user);
   User? user;
+
+  @override
   bool get loggedIn => user != null;
 
   @override
@@ -59,17 +61,17 @@ class FinalgenFirebaseUser extends BaseAuthUser {
   static BaseAuthUser fromUserCredential(UserCredential userCredential) =>
       fromFirebaseUser(userCredential.user);
   static BaseAuthUser fromFirebaseUser(User? user) =>
-      FinalgenFirebaseUser(user);
+      AskAnythingFirebaseUser(user);
 }
 
-Stream<BaseAuthUser> finalgenFirebaseUserStream() => FirebaseAuth.instance
+Stream<BaseAuthUser> askAnythingFirebaseUserStream() => FirebaseAuth.instance
         .authStateChanges()
         .debounce((user) => user == null && !loggedIn
             ? TimerStream(true, const Duration(seconds: 1))
             : Stream.value(user))
         .map<BaseAuthUser>(
       (user) {
-        currentUser = FinalgenFirebaseUser(user);
+        currentUser = AskAnythingFirebaseUser(user);
         return currentUser!;
       },
     );
